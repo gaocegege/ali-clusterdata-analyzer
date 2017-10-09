@@ -19,12 +19,15 @@ import (
 	"log"
 	"os"
 
-	"github.com/gaocegege/ali-clusterdata-analyzer/parser"
+	"github.com/gaocegege/ali-clusterdata-analyzer/analyzer"
 	"github.com/spf13/cobra"
+
+	"github.com/gaocegege/ali-clusterdata-analyzer/parser"
 )
 
 var (
 	clusterDataDir string
+	GlobalAnalyzer *analyzer.Analyzer
 )
 
 // RootCmd represents the base command when called without any subcommands
@@ -49,6 +52,7 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 	cobra.OnInitialize(initParser)
+	cobra.OnInitialize(initAnalyzer)
 
 	// Here you will define your flags and configuration settings.
 	// Cobra supports Persistent Flags, which, if defined here,
@@ -66,6 +70,10 @@ func initParser() {
 		log.Fatalln("The directory must be specified")
 	}
 	batchInstanceParser = parser.NewBatchInstanceParser(clusterDataDir)
+}
+
+func initAnalyzer() {
+	GlobalAnalyzer = analyzer.NewAnalyzer()
 }
 
 // initConfig reads in config file and ENV variables if set.

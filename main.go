@@ -14,8 +14,13 @@
 
 package main
 
-import "github.com/gaocegege/ali-clusterdata-analyzer/cmd"
+import (
+	"fmt"
+
+	"github.com/gaocegege/ali-clusterdata-analyzer/cmd"
+)
 
 func main() {
+	fmt.Println("???")
 	cmd.Execute()
 }

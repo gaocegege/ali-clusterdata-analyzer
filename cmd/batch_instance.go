@@ -15,6 +15,9 @@
 package cmd
 
 import (
+	"fmt"
+	"log"
+
 	"github.com/gaocegege/ali-clusterdata-analyzer/parser"
 	"github.com/spf13/cobra"
 )
@@ -27,7 +30,14 @@ var batchInstanceCmd = &cobra.Command{
 	Short: "Batch instance related commands",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		batchInstanceParser.ParseFromFile()
+		fmt.Println("!!!")
+		batchInstances, err := batchInstanceParser.ParseFromFile()
+		fmt.Println("!!!")
+		if err != nil {
+			log.Fatalln("Error occurred in batch-instance: %v", err)
+		}
+		GlobalAnalyzer.ImportBatchInstance(batchInstances)
+		fmt.Println(GlobalAnalyzer)
 	},
 }
 

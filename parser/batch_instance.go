@@ -7,6 +7,8 @@ import (
 	"log"
 	"os"
 	"path"
+
+	"github.com/gaocegege/ali-clusterdata-analyzer/data"
 )
 
 const (
@@ -29,10 +31,11 @@ func (b BatchInstanceParser) GetFileName() string {
 	return path.Join(b.DirName, b.FileName)
 }
 
-func (b BatchInstanceParser) ParseFromFile() (string, error) {
+func (b BatchInstanceParser) ParseFromFile() ([]*data.BatchInstance, error) {
+	res := []*data.BatchInstance{}
 	file, err := os.Open(b.GetFileName())
 	if err != nil {
-		return "", err
+		return res, err
 	}
 	r := csv.NewReader(file)
 	for {
@@ -43,8 +46,8 @@ func (b BatchInstanceParser) ParseFromFile() (string, error) {
 		if err != nil {
 			log.Fatal(err)
 		}
-
 		fmt.Println(record)
+		res = append(res, data.NewBatchInstanceFrom(record))
 	}
-	return "", nil
+	return res, nil
 }
